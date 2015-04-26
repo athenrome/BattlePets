@@ -1,0 +1,17 @@
+Name,ElementType,AttackType,BaseDamage,RechargeTime
+Lightning,Air,Beam,12,3
+Refreshing Air,Air,Heal,20,12
+Dense Cloud,Air,Projectile,16,8
+Slipstream,Air,Melee,24,21
+Rolling Boulder,Earth,Beam,33,24
+Hot Springs,Earth,Heal,20,12
+Thrown Rock,Earth,Projectile,16,8
+Rocky Fist,Earth,Melee,20,15
+Fire Beam,Fire,Beam,28,18
+Phoenix Ashes,Fire,Heal,20,12
+Fireball,Fire,Projectile,22,11
+Fiery Punch,Fire,Melee,25,20
+Flowing Stream,Water,Beam,12,7
+Ice-Cold Water,Water,Heal,20,12
+Snowball,Water,Projectile,10,10
+Icy Punch,Water,Melee,14,14

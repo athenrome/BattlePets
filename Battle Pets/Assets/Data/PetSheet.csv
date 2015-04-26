@@ -1,0 +1,5 @@
+Name,ElementType,Health,Strength,Speed,Xp,Lvl,FireRes,EarthRes,WaterRes,AirRes
+FireBird,Fire,60,6,5,0,1,80,40,0,30
+WaterFish,Water,50,4,3,0,1,20,50,100,40
+RockLizard,Earth,80,10,8,0,1,60,80,40,40
+AirSnail,Air,30,3,2,0,1,40,40,40,80
