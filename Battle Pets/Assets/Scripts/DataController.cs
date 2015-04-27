@@ -5,13 +5,13 @@ using System.Linq;
 
 public class DataController : MonoBehaviour {
 
-    GameController game = new GameController();
+    GameController game;
 
     public TextAsset PetDataText;
     public TextAsset AbilityDataText;
 
-    List<Ability> AbilityList = new List<Ability>();
-    List<Pet> PetList = new List<Pet>();
+    public List<Ability> AbilityList;
+    public List<Pet> PetList;
     
     
 
@@ -19,15 +19,14 @@ public class DataController : MonoBehaviour {
 	void Awake () {
         LoadPetData();
         LoadAbilityData();
-        SendData(AbilityList, PetList);
+
+        game = GameObject.FindObjectOfType<GameController>();
+
+        
+        
 	}
 
-    void SendData(List<Ability> AbilityList, List<Pet> PetList)
-    {
-        game.AbilitiesList = AbilityList;
-        //print(game.AbilitiesList.Count);
-        game.AvailablePets = PetList;
-    }
+   
 
     void LoadAbilityData()
     {
@@ -111,7 +110,7 @@ public class DataController : MonoBehaviour {
             float AirRes = ConvertToFloat(RawPet.AirRes);
 
 
-            NewPet = new Pet(PetName, ElementType, PetHealth, PetStrength, PetSpeed, CurrentXP, CurrentLvl, FireRes, EarthRes, WaterRes, AirRes);
+            NewPet = new Pet(PetName, ElementType, PetHealth, PetStrength, PetSpeed, CurrentXP, CurrentLvl, FireRes, EarthRes, WaterRes, AirRes, ChooseAbilities(AbilityList));
 
             NewPetList.Add(NewPet);
             
@@ -121,6 +120,20 @@ public class DataController : MonoBehaviour {
         PetList = NewPetList;
         print("Loaded " + PetList.Count + "Pets");
 
+    }
+
+    List<Ability> ChooseAbilities(List<Ability> LocalAbilityList)
+    {
+        List<Ability> PetAbilities = new List<Ability>();
+
+        for(int i = 0; PetAbilities.Count < 4; i++)
+        {
+            int Chooser = Random.Range(0, LocalAbilityList.Count);
+            PetAbilities.Add(LocalAbilityList[Chooser]);
+            LocalAbilityList.Remove(LocalAbilityList[Chooser]);
+        }
+
+        return PetAbilities;
     }
 
     AttackType ChooseAttackType(string ToConvert)

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Pet {
 
@@ -15,8 +15,9 @@ public class Pet {
     public float EarthRes;
     public float WaterRes;
     public float AirRes;
+    public List<Ability> PetAbilities;
 
-    public Pet(string Name, ElementType EleType, int Health, int Strength, float Speed,  int XP, int Lvl, float ResFire, float ResEarth, float ResWater, float ResAir)
+    public Pet(string Name, ElementType EleType, int Health, int Strength, float Speed,  int XP, int Lvl, float ResFire, float ResEarth, float ResWater, float ResAir, List<Ability>Abilities)
     {
         PetName = Name;
         ElementType = EleType;
@@ -29,6 +30,7 @@ public class Pet {
         ResEarth = EarthRes;
         ResWater = WaterRes;
         ResAir = AirRes;
+        PetAbilities = Abilities;
     }
 
     

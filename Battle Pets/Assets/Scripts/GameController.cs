@@ -5,26 +5,30 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
 
     public Player PlayerCharacter;
+    public Player EnemyCharacter;
 
-    DataController data = new DataController();
+    DataController data;
 
-    public List<Pet> AvailablePets = new List<Pet>();
-    public List<Ability> AbilitiesList = new List<Ability>();
+    public List<Pet> AvailablePets;
+    public List<Ability> AbilitiesList;
 
 	// Use this for initialization
 	void Start () {
-        print(AvailablePets.Count);
+        data = GameObject.FindObjectOfType<DataController>();
+        AvailablePets = data.PetList;
+              
+        PlayerCharacter = CreateCharacter();
+        EnemyCharacter = CreateCharacter();
 
-        PlayerCharacter = CreatePlayer();
 	}
 	
 	// Update is called once per frame
 	void Update () {       	
 	}
 
-    Player CreatePlayer()
+    Player CreateCharacter()
     {
-        print("asdf" + AvailablePets.Count);
+        
 
         Player NewPlayer;
 
@@ -43,8 +47,8 @@ public class GameController : MonoBehaviour {
         {
             int Chooser = Random.Range(0, AvailablePets.Count);
 
-            PlayerPets.Add(AvailablePets[i]);
-            AvailablePets.Remove(AvailablePets[i]);
+            PlayerPets.Add(AvailablePets[Chooser]);
+            AvailablePets.Remove(AvailablePets[Chooser]);
         }
 
         return PlayerPets;
