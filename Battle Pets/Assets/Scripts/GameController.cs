@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
-    public Player PlayerCharacter;
-    public Player EnemyCharacter;
+     public PlayerController PlayerCharacter;
+     public EnemyController EnemyCharacter;
 
     DataController data;
 
@@ -15,10 +15,19 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         data = GameObject.FindObjectOfType<DataController>();
+        PlayerCharacter = GameObject.FindObjectOfType<PlayerController>();
+        EnemyCharacter = GameObject.FindObjectOfType<EnemyController>();
+
         AvailablePets = data.PetList;
-              
-        PlayerCharacter = CreateCharacter();
-        EnemyCharacter = CreateCharacter();
+
+        
+
+        PlayerCharacter.PlayerChar = CreateCharacter();
+        
+        EnemyCharacter.Character = new Enemy("Enemy", AvailablePets[Random.Range(0, AvailablePets.Count)]);
+        
+
+        
 
 	}
 	
@@ -26,10 +35,8 @@ public class GameController : MonoBehaviour {
 	void Update () {       	
 	}
 
-    Player CreateCharacter()
+    public Player CreateCharacter()
     {
-        
-
         Player NewPlayer;
 
         NewPlayer = new Player("Player", GetPets());
@@ -37,9 +44,11 @@ public class GameController : MonoBehaviour {
         return NewPlayer;
     }
 
+    
+
     List<Pet>GetPets()
     {
-        int maxPets = 4;
+        int maxPets = 3;
         
         List<Pet> PlayerPets = new List<Pet>();
 
@@ -48,9 +57,10 @@ public class GameController : MonoBehaviour {
             int Chooser = Random.Range(0, AvailablePets.Count);
 
             PlayerPets.Add(AvailablePets[Chooser]);
-            AvailablePets.Remove(AvailablePets[Chooser]);
+            //AvailablePets.Remove(AvailablePets[Chooser]);
         }
 
         return PlayerPets;
+
     }
 }

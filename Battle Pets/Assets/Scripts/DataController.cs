@@ -10,19 +10,21 @@ public class DataController : MonoBehaviour {
     public TextAsset PetDataText;
     public TextAsset AbilityDataText;
 
-    public List<Ability> AbilityList;
+    public List<Ability> AbilityList; // = new List<Ability>();
     public List<Pet> PetList;
     
     
 
 
 	void Awake () {
-        LoadPetData();
+       
+
         LoadAbilityData();
+        LoadPetData();
+        
 
         game = GameObject.FindObjectOfType<GameController>();
 
-        
         
 	}
 
@@ -75,6 +77,7 @@ public class DataController : MonoBehaviour {
 
     void LoadPetData()
     {
+        
 
         List<PetData> RawPetData;
 
@@ -84,16 +87,22 @@ public class DataController : MonoBehaviour {
         CsvReader.Configuration.AutoMap<PetData>();
 
         RawPetData = CsvReader.GetRecords<PetData>().ToList();
-
+        
         ProcessPetData(RawPetData);
+        
 
     }
 
     void ProcessPetData(List<PetData> RawPetData)
     {
+
+        print(RawPetData.Count);
+
         Pet NewPet;
 
         List<Pet> NewPetList = new List<Pet>();
+
+     
 
         foreach(PetData RawPet in RawPetData)
         {
@@ -108,11 +117,14 @@ public class DataController : MonoBehaviour {
             float EarthRes = ConvertToFloat(RawPet.EarthRes);
             float WaterRes = ConvertToFloat(RawPet.WaterRes);
             float AirRes = ConvertToFloat(RawPet.AirRes);
+            List<Ability> NewPetAbilities = ChooseAbilities(AbilityList);
 
 
-            NewPet = new Pet(PetName, ElementType, PetHealth, PetStrength, PetSpeed, CurrentXP, CurrentLvl, FireRes, EarthRes, WaterRes, AirRes, ChooseAbilities(AbilityList));
-
+            NewPet = new Pet(PetName, ElementType, PetHealth, PetStrength, PetSpeed, CurrentXP, CurrentLvl, FireRes, EarthRes, WaterRes, AirRes, NewPetAbilities);
+            print(NewPet.PetSpeed);
             NewPetList.Add(NewPet);
+            
+            
             
             
         }
@@ -124,13 +136,23 @@ public class DataController : MonoBehaviour {
 
     List<Ability> ChooseAbilities(List<Ability> LocalAbilityList)
     {
+        LocalAbilityList = AbilityList;
         List<Ability> PetAbilities = new List<Ability>();
 
         for(int i = 0; PetAbilities.Count < 4; i++)
         {
             int Chooser = Random.Range(0, LocalAbilityList.Count);
-            PetAbilities.Add(LocalAbilityList[Chooser]);
-            LocalAbilityList.Remove(LocalAbilityList[Chooser]);
+
+            if(PetAbilities.Contains(LocalAbilityList[Chooser]))
+            {
+
+            }
+            else
+            {
+                PetAbilities.Add(LocalAbilityList[Chooser]);
+            }
+            
+            //LocalAbilityList.Remove(LocalAbilityList[Chooser]);
         }
 
         return PetAbilities;
@@ -200,6 +222,7 @@ public class DataController : MonoBehaviour {
         float NewFloat;
 
         NewFloat = float.Parse(ToConvert);
+        
 
         return NewFloat;
     }

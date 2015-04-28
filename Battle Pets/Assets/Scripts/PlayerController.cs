@@ -1,55 +1,61 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
     GameController game;
-    public Player PlayerCharacter;
-    public GameObject PetCharacter;
+    public Player PlayerChar;
+    public GameObject PetGameobject;
+    Pet CurrentPet;
+
+
 
 	// Use this for initialization
 	void Start () {
-
-        PlayerCharacter = game.PlayerCharacter;
-
         game = GameObject.FindObjectOfType<GameController>();
+        
+        CurrentPet = PlayerChar.PlayerPets[0];
+
+        
+
+        ActivateAbility1();
 
 	}
 	
-    public void SpawnPet(int PetLocation)
+
+
+    void AttackOpponent(Ability ActiveAbility)
     {
-        RemovePet();
+        game.EnemyCharacter.RecieveAttack(ActiveAbility);
     }
 
-    public void RemovePet()
-    {
-        
-    }
+    
 
     public void ActivateAbility1()
     {
-
+        print("1");
+        AttackOpponent(CurrentPet.PetAbilities[0]);
     }
 
     public void ActivateAbility2()
     {
-
+        print("2");
+        AttackOpponent(CurrentPet.PetAbilities[1]);
     }
 
     public void ActivateAbility3()
     {
-
+        print("3");
+        AttackOpponent(CurrentPet.PetAbilities[2]);
     }
 
     public void ActivateAbility4()
     {
-
+        print("4");
+        AttackOpponent(CurrentPet.PetAbilities[3]);
     }
 
-    void FaceOpponent()
-    {
-
-    }
+    
 
 	// Update is called once per frame
 	void Update () {

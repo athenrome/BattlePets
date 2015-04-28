@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\AttackType.cs" />
      <Compile Include="Assets\Scripts\DataController.cs" />
      <Compile Include="Assets\Scripts\ElementType.cs" />
+     <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\Pet.cs" />
