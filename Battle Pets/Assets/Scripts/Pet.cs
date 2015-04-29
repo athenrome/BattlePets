@@ -26,10 +26,10 @@ public class Pet {
         PetSpeed = Speed;
         CurrentXP = XP;
         CurrentLvl = Lvl;
-        ResFire = FireRes;
-        ResEarth = EarthRes;
-        ResWater = WaterRes;
-        ResAir = AirRes;
+        FireRes = ResFire;
+        EarthRes = ResEarth;
+        WaterRes = ResWater;
+        AirRes = ResAir;
         PetAbilities = Abilities;
     }
 

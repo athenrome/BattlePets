@@ -58,7 +58,7 @@ public class DataController : MonoBehaviour {
             ElementType ElementType = ChooseElement(RawAbility.ElementType);
             AttackType AttackType = ChooseAttackType(RawAbility.AttackType);
             int BaseDamage = ConvertToInt(RawAbility.BaseDamage);
-            float RechargeTime = ConvertToFloat(RawAbility.RechargeTime);
+            int RechargeTime = ConvertToInt(RawAbility.RechargeTime);
 
             NewAbility = new Ability(Name, ElementType, AttackType, BaseDamage, RechargeTime);
 
@@ -96,7 +96,7 @@ public class DataController : MonoBehaviour {
     void ProcessPetData(List<PetData> RawPetData)
     {
 
-        print(RawPetData.Count);
+        
 
         Pet NewPet;
 
@@ -119,9 +119,9 @@ public class DataController : MonoBehaviour {
             float AirRes = ConvertToFloat(RawPet.AirRes);
             List<Ability> NewPetAbilities = ChooseAbilities(AbilityList);
 
-
+            
             NewPet = new Pet(PetName, ElementType, PetHealth, PetStrength, PetSpeed, CurrentXP, CurrentLvl, FireRes, EarthRes, WaterRes, AirRes, NewPetAbilities);
-            print(NewPet.PetSpeed);
+            
             NewPetList.Add(NewPet);
             
             

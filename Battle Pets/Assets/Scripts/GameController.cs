@@ -4,8 +4,11 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
+
      public PlayerController PlayerCharacter;
      public EnemyController EnemyCharacter;
+     public GameObject ChoosePet;
+     public UIController GameUI;
 
     DataController data;
 
@@ -14,6 +17,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        GameUI = GameObject.FindObjectOfType<UIController>();
         data = GameObject.FindObjectOfType<DataController>();
         PlayerCharacter = GameObject.FindObjectOfType<PlayerController>();
         EnemyCharacter = GameObject.FindObjectOfType<EnemyController>();
@@ -31,6 +35,11 @@ public class GameController : MonoBehaviour {
 
 	}
 	
+    public void GameOver()
+    {
+
+    }
+
 	// Update is called once per frame
 	void Update () {       	
 	}

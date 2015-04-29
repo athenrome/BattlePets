@@ -15,7 +15,7 @@ public class PetController : MonoBehaviour {
         switch(CurrentPet.ElementType)
         {
             case ElementType.Air:
-
+                
                 break;
             case ElementType.Earth:
 
