@@ -28,7 +28,7 @@ public class UIController : MonoBehaviour {
         PlayerCharacter = GameObject.FindObjectOfType<PlayerController>();
         EnemyCharacter = GameObject.FindObjectOfType<EnemyController>();
 
-        //UpdateUI();
+        
 	
 	}
 

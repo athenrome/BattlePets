@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     public Player PlayerChar;
     public GameObject PetGameobject;
     public Pet CurrentPet;
+    PetController petcol;
 
     public float MoveSpeed = 4f;
 
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour {
         game = GameObject.FindObjectOfType<GameController>();
         GameUI = GameObject.FindObjectOfType<UIController>();
         EnemyChar = GameObject.FindObjectOfType<EnemyController>();
-        
+        petcol = GameObject.FindObjectOfType<PetController>();
 
 
         Cool1Active = false;
@@ -74,7 +75,9 @@ public class PlayerController : MonoBehaviour {
     {
         CurrentPet = ToSpawn;
 
-        
+        PetController petcol = GameObject.FindObjectOfType<PetController>();
+
+        petcol.SetColour();
 
         GameUI.Ability1Txt.text = CurrentPet.PetAbilities[0].Name;
         GameUI.Ability2Txt.text = CurrentPet.PetAbilities[1].Name;
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour {
 
     public void StartPlayerTurn()
     {
+        petcol.SetColour();
         if(CurrentPet == null)
         {
             print("No Player Pet you must choose one");
@@ -109,8 +113,9 @@ public class PlayerController : MonoBehaviour {
     public void ChoosePet()
     {
         PetChoose.Show();
-        SpawnPet(CurrentPet);
+        
         GameUI.UpdateUI();
+        SpawnPet(CurrentPet);
         EndPlayerTurn();
     }
 
