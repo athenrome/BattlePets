@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour {
     public Pet CurrentPet;
     UIController GameUI;
     PlayerController PlayerChar;
+    PetController petcol;
+    GameLogController Log;
 
     bool Cool1Active;
     int Cool1Time;
@@ -28,8 +30,14 @@ public class EnemyController : MonoBehaviour {
         GameUI = GameObject.FindObjectOfType<UIController>();
         game = GameObject.FindObjectOfType<GameController>();
         PlayerChar = GameObject.FindObjectOfType<PlayerController>();
+        Log = GameObject.FindObjectOfType<GameLogController>();
+
+        petcol = GameObject.FindObjectOfType<PetController>();
         
         CurrentPet = Character.CurrentPet;
+
+        //petcol.SetColour();
+        
 
         Cool1Active = false;
         Cool2Active = false;
@@ -59,6 +67,7 @@ public class EnemyController : MonoBehaviour {
         print("Enemy ended turn");
         CheckCooldowns();
         GameUI.UpdateUI();
+        Log.NewLog("");
         PlayerChar.StartPlayerTurn();
     }
 
@@ -149,7 +158,11 @@ public class EnemyController : MonoBehaviour {
                 //print("resistign against: Water " + CurrElemRes);
                 break;            
         }
-        CurrentPet.PetHealth -= Mathf.RoundToInt((OpponentAttack.BaseDamage * CurrElemRes) / 100);
+        int DamageDealt = Mathf.RoundToInt((OpponentAttack.BaseDamage * CurrElemRes) / 100);
+
+        CurrentPet.PetHealth -= DamageDealt;
+        Log.NewLog("Player Dealt: " + DamageDealt + " Damage");
+        
 
         CheckPet();
     }
@@ -164,16 +177,28 @@ public class EnemyController : MonoBehaviour {
 
     void KillPet()
     {
-        print(CurrentPet.PetName + " Has Died");
+        Log.NewLog(CurrentPet.PetName + " Has Died");
         CurrentPet = null;
         game.GameOver();
     }
 
+    
     void AttackOpponent(Ability ActiveAbility)
     {
+        Log.NewLog("Enemy used: " + ActiveAbility.Name);
+        if(ActiveAbility.AttackType == AttackType.Heal)
+        {
+            CurrentPet.PetHealth += (ActiveAbility.BaseDamage / 2);
+            Log.NewLog("Healed: " + (ActiveAbility.BaseDamage / 2));
+        }
+        else
+        {
+            game.PlayerCharacter.RecieveAttack(ActiveAbility);
+        }
         
-        game.PlayerCharacter.RecieveAttack(ActiveAbility);
     }
+        
+    
 
     void CheckCooldowns()
     {
@@ -183,15 +208,14 @@ public class EnemyController : MonoBehaviour {
             if (Cool1Time <= 0)
             {
                 
-                GameUI.Ability1Txt.text = CurrentPet.PetAbilities[0].Name;
-                print(CurrentPet.PetAbilities[0].Name + " Has recharged");
+
                 Cool1Active = false;
 
             }
             else
             {
 
-                GameUI.Ability1Txt.text = "Recharging: " + Cool1Time;
+                //GameUI.Ability1Txt.text = "Recharging: " + Cool1Time;
             }
 
         }
@@ -202,12 +226,11 @@ public class EnemyController : MonoBehaviour {
             if (Cool2Time <= 0)
             {
                 Cool2Active = false;
-                GameUI.Ability2Txt.text = CurrentPet.PetAbilities[1].Name;
-                print(CurrentPet.PetAbilities[1].Name + " Has recharged");
+
             }
             else
             {
-                GameUI.Ability2Txt.text = "Recharging: " + Cool2Time;
+                //GameUI.Ability2Txt.text = "Recharging: " + Cool2Time;
             }
 
         }
@@ -218,14 +241,13 @@ public class EnemyController : MonoBehaviour {
             if (Cool3Time <= 0)
             {
                 Cool3Active = false;
-                GameUI.Ability3Txt.text = CurrentPet.PetAbilities[2].Name;
-                print(CurrentPet.PetAbilities[2].Name + " Has recharged");
+
             }
             else
             {
 
 
-                GameUI.Ability3Txt.text = "Recharging: " + Cool3Time;
+                //GameUI.Ability3Txt.text = "Recharging: " + Cool3Time;
             }
 
         }
@@ -236,14 +258,13 @@ public class EnemyController : MonoBehaviour {
             if (Cool4Time <= 0)
             {
                 Cool4Active = false;
-                GameUI.Ability4Txt.text = CurrentPet.PetAbilities[3].Name;
-                print(CurrentPet.PetAbilities[3].Name + " Has recharged");
+
             }
             else
             {
 
 
-                GameUI.Ability4Txt.text = "Recharging: " + Cool4Time;
+                //GameUI.Ability4Txt.text = "Recharging: " + Cool4Time;
             }
 
         }

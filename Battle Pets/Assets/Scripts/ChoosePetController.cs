@@ -31,10 +31,20 @@ public class ChoosePetController : MonoBehaviour {
     public void Show()
     {
         gameObject.SetActive(true);
+        UnusedPets = new List<Pet>();
+        print(PlayerChar.PlayerChar.PlayerPets.Count);
+        UnusedPets = PlayerChar.PlayerChar.PlayerPets;
+
+        if(UnusedPets.Count < 3)
+        {
+            UnusedPets = game.AvailablePets;
+        }
+
+        
         
 
         
-        UnusedPets = PlayerChar.PlayerChar.PlayerPets;
+        
         
         PetText1.text = "Choose: " + UnusedPets[0].PetName;
         

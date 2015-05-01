@@ -11,7 +11,9 @@ public class PlayerController : MonoBehaviour {
     public Player PlayerChar;
     public GameObject PetGameobject;
     public Pet CurrentPet;
-    PetController petcol;
+    PetController PetCol;
+
+    GameLogController Log;
 
     public float MoveSpeed = 4f;
 
@@ -33,22 +35,28 @@ public class PlayerController : MonoBehaviour {
         game = GameObject.FindObjectOfType<GameController>();
         GameUI = GameObject.FindObjectOfType<UIController>();
         EnemyChar = GameObject.FindObjectOfType<EnemyController>();
-        petcol = GameObject.FindObjectOfType<PetController>();
+        PetCol = GameObject.FindObjectOfType<PetController>();
+        Log = GameObject.FindObjectOfType<GameLogController>();
+        PetController petcol = GameObject.FindObjectOfType<PetController>();
 
-
+        
         Cool1Active = false;
         Cool2Active = false;
         Cool3Active = false;
         Cool4Active = false;
 
+        
         CurrentPet = PlayerChar.PlayerPets[0];
+
+        
+    
 
         GameUI.Ability1Txt.text = CurrentPet.PetAbilities[0].Name;
         GameUI.Ability2Txt.text = CurrentPet.PetAbilities[1].Name;
         GameUI.Ability3Txt.text = CurrentPet.PetAbilities[2].Name;
         GameUI.Ability4Txt.text = CurrentPet.PetAbilities[3].Name;
 
-        StartGame();        
+        PetCol.SetColour();
 
         
 	}
@@ -59,6 +67,8 @@ public class PlayerController : MonoBehaviour {
         if(CurrentPet == null)
         {
             ChoosePet();
+
+            
             SpawnPet(CurrentPet);
             
         }
@@ -67,7 +77,12 @@ public class PlayerController : MonoBehaviour {
             StartPlayerTurn();
         }
 
-        
+        GameUI.Ability1Txt.text = CurrentPet.PetAbilities[0].Name;
+        GameUI.Ability2Txt.text = CurrentPet.PetAbilities[1].Name;
+        GameUI.Ability3Txt.text = CurrentPet.PetAbilities[2].Name;
+        GameUI.Ability4Txt.text = CurrentPet.PetAbilities[3].Name;
+
+        PetCol.SetColour();
 
     }
 
@@ -75,21 +90,21 @@ public class PlayerController : MonoBehaviour {
     {
         CurrentPet = ToSpawn;
 
-        PetController petcol = GameObject.FindObjectOfType<PetController>();
+        
 
-        petcol.SetColour();
+        
 
         GameUI.Ability1Txt.text = CurrentPet.PetAbilities[0].Name;
         GameUI.Ability2Txt.text = CurrentPet.PetAbilities[1].Name;
         GameUI.Ability3Txt.text = CurrentPet.PetAbilities[2].Name;
         GameUI.Ability4Txt.text = CurrentPet.PetAbilities[3].Name;
 
-
+        PetCol.SetColour();
     }
 
     public void StartPlayerTurn()
     {
-        petcol.SetColour();
+        PetCol.SetColour();
         if(CurrentPet == null)
         {
             print("No Player Pet you must choose one");
@@ -107,18 +122,27 @@ public class PlayerController : MonoBehaviour {
         print("Player ended turn");
         CheckCooldowns();
         GameUI.UpdateUI();
+        Log.NewLog("");
         EnemyChar.StartEnemyTurn();
+        PetCol.SetColour();
     }
-
     public void ChoosePet()
     {
         PetChoose.Show();
         
         GameUI.UpdateUI();
         SpawnPet(CurrentPet);
+
+        GameUI.Ability1Txt.text = CurrentPet.PetAbilities[0].Name;
+        GameUI.Ability2Txt.text = CurrentPet.PetAbilities[1].Name;
+        GameUI.Ability3Txt.text = CurrentPet.PetAbilities[2].Name;
+        GameUI.Ability4Txt.text = CurrentPet.PetAbilities[3].Name;
+
+        PetCol.SetColour();
+
+
         EndPlayerTurn();
     }
-
     void CheckCooldowns()
     {
         if (Cool1Active == true)
@@ -126,9 +150,9 @@ public class PlayerController : MonoBehaviour {
             Cool1Time -= 1;
             if (Cool1Time <= 0)
             {
-                print("asdf");
+                
                 GameUI.Ability1Txt.text = CurrentPet.PetAbilities[0].Name;
-                print(CurrentPet.PetAbilities[0].Name + " Has recharged");
+                Log.NewLog(CurrentPet.PetAbilities[0].Name + " Has recharged");
                 Cool1Active = false;
 
             }
@@ -147,7 +171,7 @@ public class PlayerController : MonoBehaviour {
             {
                 Cool2Active = false;
                 GameUI.Ability2Txt.text = CurrentPet.PetAbilities[1].Name;
-                print(CurrentPet.PetAbilities[1].Name + " Has recharged");
+                Log.NewLog(CurrentPet.PetAbilities[1].Name + " Has recharged");
             }
             else
             {
@@ -163,7 +187,7 @@ public class PlayerController : MonoBehaviour {
             {
                 Cool3Active = false;
                 GameUI.Ability3Txt.text = CurrentPet.PetAbilities[2].Name;
-                print(CurrentPet.PetAbilities[2].Name + " Has recharged");
+                Log.NewLog(CurrentPet.PetAbilities[2].Name + " Has recharged");
             }
             else
             {
@@ -181,7 +205,7 @@ public class PlayerController : MonoBehaviour {
             {
                 Cool4Active = false;
                 GameUI.Ability4Txt.text = CurrentPet.PetAbilities[3].Name;
-                print(CurrentPet.PetAbilities[3].Name + " Has recharged");
+                Log.NewLog(CurrentPet.PetAbilities[3].Name + " Has recharged");
             }
             else
             {
@@ -192,9 +216,6 @@ public class PlayerController : MonoBehaviour {
             
         }
     }
-
-    
-
     public void ActivateAbility1()
     {
         if(Cool1Active == false)
@@ -208,7 +229,6 @@ public class PlayerController : MonoBehaviour {
         
         
     }
-
     public void ActivateAbility2()
     {
         if (Cool2Active == false)
@@ -220,7 +240,6 @@ public class PlayerController : MonoBehaviour {
             EndPlayerTurn();
         }
     }
-    
     public void ActivateAbility3()
     {
         if(Cool3Active == false)
@@ -232,7 +251,6 @@ public class PlayerController : MonoBehaviour {
             EndPlayerTurn();
         }
     }
-
     public void ActivateAbility4()
     {
         if(Cool4Active == false)
@@ -244,23 +262,23 @@ public class PlayerController : MonoBehaviour {
             EndPlayerTurn();
         }
     }
-
     void AttackOpponent(Ability ActiveAbility)
     {
-        game.EnemyCharacter.RecieveAttack(ActiveAbility);
+
+        Log.NewLog("Player used: " + ActiveAbility.Name);
+
+        if(ActiveAbility.AttackType == AttackType.Heal)
+        {
+
+            CurrentPet.PetHealth += (ActiveAbility.BaseDamage / 2);
+            Log.NewLog("Healed: " + (ActiveAbility.BaseDamage / 2));
+        }
+        else
+        {
+            game.EnemyCharacter.RecieveAttack(ActiveAbility);
+        }
+        
     }
-
-    //void ShakePet()
-    //{
-    //    float ShakeDistance = 0.2f;
-
-    //    for(float i = 0; i < ShakeDistance; i += MoveSpeed)
-    //    {
-    //        float move = i;
-    //        PetGameobject.transform.position.x += PetGameobject.transform.position.x + move;
-    //    }
-    //}
-
     public void RecieveAttack(Ability OpponentAttack)
     {
 
@@ -290,11 +308,13 @@ public class PlayerController : MonoBehaviour {
                 //print("resistign against: Water " + CurrElemRes);
                 break;
         }
-        CurrentPet.PetHealth -= Mathf.RoundToInt((OpponentAttack.BaseDamage * CurrElemRes) / 100);
 
+        int DamageDealt = Mathf.RoundToInt((OpponentAttack.BaseDamage * CurrElemRes) / 100);
+
+        CurrentPet.PetHealth -= DamageDealt;
+        Log.NewLog("Enemy Dealt: " + DamageDealt + " Damage");
         CheckPet();
     }
-
     void CheckPet()
     {
         if (CurrentPet.PetHealth <= 0)
@@ -305,7 +325,7 @@ public class PlayerController : MonoBehaviour {
 
     void KillPet()
     {
-        print(CurrentPet.PetName + " Has Died");
+        Log.NewLog(CurrentPet.PetName + " Has Died");
         PlayerChar.PlayerPets.Remove(CurrentPet);
         CurrentPet = null;
 

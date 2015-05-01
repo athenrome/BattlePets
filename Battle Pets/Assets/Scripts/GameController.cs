@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour {
      public EnemyController EnemyCharacter;
      public GameObject ChoosePet;
      public UIController GameUI;
+     public GameObject GameOverScreen;
 
     DataController data;
 
@@ -24,8 +25,8 @@ public class GameController : MonoBehaviour {
 
         AvailablePets = data.PetList;
 
-        
-
+        GameOverScreen.SetActive(false);
+            
         PlayerCharacter.PlayerChar = CreateCharacter();
         
         EnemyCharacter.Character = new Enemy("Enemy", AvailablePets[Random.Range(0, AvailablePets.Count)]);
@@ -35,9 +36,19 @@ public class GameController : MonoBehaviour {
 
 	}
 	
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     public void GameOver()
     {
+        GameOverScreen.SetActive(true);
+    }
 
+    public void Replay()
+    {
+        Application.LoadLevel(Application.loadedLevel);
     }
 
 	// Update is called once per frame
